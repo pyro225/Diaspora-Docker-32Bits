@@ -2,6 +2,10 @@
 
 cd diaspora
 
-RAILS_ENV=production  DB=postgres  bundle install --without test development
-RAILS_ENV=production  DB=postgres  bundle exec rake db:create db:schema:load
+j=$(nproc)
+bundle config jobs $j
+bundle config path /home/diaspora/gems
+
+RAILS_ENV=production  DB=postgres  bin/bundle install --without test development
+RAILS_ENV=production  DB=postgres  bin/bundle exec rake db:create db:schema:load
 DB=postgres bundle exec rake assets:precompile

@@ -23,5 +23,6 @@ echo "GRANT SELECT, LOCK TABLES, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, \
         ALTER ON diaspora_test.* TO 'diaspora'@'localhost';" | mysql \
             --user=root --password=$mysqlRoot
 
-echo 'cd /home/diaspora/diaspora/ && bin/bundle install' | sudo -u diaspora -i 
+echo 'bundle config path /home/diaspora/gems' | sudo -u diaspora -i
+echo 'cd /home/diaspora/diaspora/ && bin/bundle install --with mysql' | sudo -u diaspora -i 
 echo 'cd /home/diaspora/diaspora/ && bin/rake db:create db:schema:load' | sudo -u diaspora -i 

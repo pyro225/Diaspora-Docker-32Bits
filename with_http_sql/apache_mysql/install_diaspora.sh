@@ -2,6 +2,10 @@
 
 cd diaspora
 
-RAILS_ENV=production bundle install --without test development
-RAILS_ENV=production bundle exec rake db:create db:schema:load
+j=$(nproc)
+bundle config jobs $j
+bundle config path /home/diaspora/gems
+
+RAILS_ENV=production bin/bundle install --without test development
+RAILS_ENV=production bin/bundle exec rake db:create db:schema:load
 bundle exec rake assets:precompile
