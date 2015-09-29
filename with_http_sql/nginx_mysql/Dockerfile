@@ -9,7 +9,7 @@ ENV MYSQLTMPROOT temprootpass
 RUN apt-get update
 RUN apt-get -y upgrade
 
-# Install Apache
+# Install NGinx
 RUN apt-get -y install nginx
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
