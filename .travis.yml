@@ -6,5 +6,5 @@ services:
     - docker
 
 script:
-  - scripts/tests.sh --build
+  - scripts/tests.sh --build --verbose
   - scripts/tests.sh --run
