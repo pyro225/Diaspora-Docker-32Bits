@@ -12,10 +12,11 @@ lines=$(( $(echo 0 | $build | wc -l) + 1 ))
 
 
 print_help () {
-  echo -e "./tests.sh [-c --clean] [-b --build] [-r --run]"
+  echo -e "./tests.sh [-c --clean] [-b --build] [-r --run] [-v --verbose]"
   echo -e "\tc, --clean: Clean all containers and clean images of chocobozzz/diaspora-docker"
   echo -e "\tb, --build: Make build tests" 
   echo -e "\tr, --run: Make run tests (images have to be already built)" 
+  echo -e "\tv, --verbose: Print builds status on stdout instead of file log (when choosing --build option)" 
 }
 
 # Clean all containers and clean images of chocobozzz/diaspora-docker
@@ -48,7 +49,12 @@ make_build_test () {
   
   sleep 2
 
-  echo $2 | $build_command > "$outputs_dir/build/$(echo $1 | sed 's/\s/_/g')"
+  if [ $3 = true ]; then # Print in stdout
+    echo $2 | $build_command
+  else # Print in logs
+    echo $2 | $build_command > "$outputs_dir/build/$(echo $1 | sed 's/\s/_/g')"
+  fi
+
 
   if [ ${PIPESTATUS[1]} -ne 0 ] ; then
     printf "${ERR}FAILED${END}\n"
@@ -130,6 +136,7 @@ prepare_output_dir () {
 clean=false
 build=false
 run=false
+verbose=false
 
 for arg in $*; do
   if [[ $arg = "-c" || $arg = "--clean" ]]; then
@@ -138,6 +145,8 @@ for arg in $*; do
     build=true
   elif [[ $arg = "-r" || $arg = "--run" ]]; then
     run=true
+  elif [[ $arg = "-v" || $arg = "--verbose" ]]; then
+    verbose=true
   elif [[ $arg = "-h" || $arg = "--help" ]]; then
     print_help
     exit 0
@@ -159,31 +168,31 @@ fi
 # Build tests
 if [ $build = true ]; then
   # First pass
-  make_build_test "without http and sql"               1
+  make_build_test "without http and sql"               1 $verbose
   check_build_error $?
 
   # Second pass
-  make_build_test "with Apache and MySQL"              2
+  make_build_test "with Apache and MySQL"              2 $verbose
   ret1=$?
-  make_build_test "with Apache and PostgreSQL"         3
+  make_build_test "with Apache and PostgreSQL"         3 $verbose
   ret2=$?
-  make_build_test "with NGinx and MySQL"               4
+  make_build_test "with NGinx and MySQL"               4 $verbose
   ret3=$?
-  make_build_test "with NGinx and PostgreSQL"          5
+  make_build_test "with NGinx and PostgreSQL"          5 $verbose
   ret4=$?
-  make_build_test "with NGinx and MySQL (Development)" 6
+  make_build_test "with NGinx and MySQL (Development)" 6 $verbose
   ret5=$?
 
   check_build_error $ret1 $ret2 $ret3 $ret4 $ret5
 
   # Third pass
-  make_build_test "Apache and MySQL"                   7
+  make_build_test "Apache and MySQL"                   7 $verbose
   ret1=$?
-  make_build_test "Apache and PostgreSQL"              8
+  make_build_test "Apache and PostgreSQL"              8 $verbose
   ret2=$?
-  make_build_test "NGinx and MySQL"                    9
+  make_build_test "NGinx and MySQL"                    9 $verbose
   ret3=$?
-  make_build_test "NGinx and PostgreSQL"               10
+  make_build_test "NGinx and PostgreSQL"               10 $verbose
   ret4=$?
 
   check_build_error $ret1 $ret2 $ret3 $ret4
