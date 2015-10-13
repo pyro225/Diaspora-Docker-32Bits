@@ -6,5 +6,5 @@ services:
     - docker
 
 script:
-  - travis_wait scripts/tests.sh --build
-  - travis_wait scripts/tests.sh --run
+  - scripts/tests.sh --build
+  - scripts/tests.sh --run
