@@ -86,16 +86,16 @@ make_run_test() {
   
   echo -e "\nAcquiring sudo..."
   sudo echo -e "Sudo acquired, thanks !\n"
-  sudo docker run --name test -a STDOUT -a STDERR -p 80:80 -p 443:443 $2 &> "$outputs_dir/run/running_servers/$(echo $1 | sed 's/\s/_/g')" &
+  sudo docker run --name test -a STDOUT -a STDERR -p 48880:80 -p 48443:443 $2 &> "$outputs_dir/run/running_servers/$(echo $1 | sed 's/\s/_/g')" &
   sudo echo -e "Docker image running\n"
   
   success=0
   for i in $(seq 0 30); do
     echo -n "."
-    lines=$(curl -k https://localhost:443 2>/dev/null | grep 'diaspora*' | wc -l)
+    lines=$(curl -k https://localhost:48443 2>/dev/null | grep 'diaspora*' | wc -l)
     if [ $lines -gt 1 ]; then
       success=1
-      curl -k https://localhost:443 2>/dev/null > "$outputs_dir/run/success_pages/$(echo $1 | sed 's/\s/_/g')" 
+      curl -k https://localhost:48443 2>/dev/null > "$outputs_dir/run/success_pages/$(echo $1 | sed 's/\s/_/g')" 
       printf "${OK}OK${END}\n"
       break
     fi
@@ -108,7 +108,7 @@ make_run_test() {
 
   # Verbose ? Print the page
   if [ $3 = true ]; then
-    curl -k "https://localhost:443"
+    curl -k "https://localhost:48443"
   fi
 
   sudo docker stop test &> /dev/null
