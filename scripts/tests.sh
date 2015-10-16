@@ -89,12 +89,12 @@ make_run_test() {
   sudo docker run --name test -a STDOUT -a STDERR -p 48880:80 -p 48443:443 $2 &> "$outputs_dir/run/running_servers/$(echo $1 | sed 's/\s/_/g')" &
   sudo echo -e "Docker image running\n"
   
-  success=0
+  status_code=1
   for i in $(seq 0 30); do
     echo -n "."
     lines=$(curl -k https://localhost:48443 2>/dev/null | grep 'diaspora*' | wc -l)
     if [ $lines -gt 1 ]; then
-      success=1
+      status_code=0
       curl -k https://localhost:48443 2>/dev/null > "$outputs_dir/run/success_pages/$(echo $1 | sed 's/\s/_/g')" 
       printf "${OK}OK${END}\n"
       break
@@ -102,7 +102,7 @@ make_run_test() {
     sleep 5
   done
 
-  if [ $success -eq 0 ]; then 
+  if [ $status_code -eq 1 ]; then 
     printf "${ERR}FAILED${END}\n"
   fi
 
@@ -116,7 +116,7 @@ make_run_test() {
 
   echo -e "\n\n"
 
-  return $success
+  return $status_code
 }
 
 # Create the output directory and backup the old one
