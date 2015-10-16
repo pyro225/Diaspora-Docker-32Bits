@@ -1,0 +1,11 @@
+machine:
+  services:
+    - docker
+
+dependencies:
+  override:
+    - scripts/tests.sh --build
+
+test:
+  override:
+    - scripts/tests.sh --run
