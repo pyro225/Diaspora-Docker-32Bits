@@ -4,8 +4,8 @@ machine:
 
 dependencies:
   override:
-    - scripts/tests.sh --build
+    - scripts/tests.sh --build --verbose
 
 test:
   override:
-    - scripts/tests.sh --run
+    - scripts/tests.sh --run --verbose
