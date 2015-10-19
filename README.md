@@ -1,8 +1,13 @@
-# Diaspora-Docker
+# Diaspora-Docker [![Circle CI](https://circleci.com/gh/Chocobozzz/Diaspora-Docker/tree/master.svg?style=shield)](https://circleci.com/gh/Chocobozzz/Diaspora-Docker/tree/master)
 
 ## HOW TO
 
 See [HOW TO Wiki](https://github.com/Chocobozzz/Diaspora-Docker/wiki/How-To)
+
+
+## Diaspora version
+
+The dockerfiles use the master branch of Diaspora so they are always up to date with the latest version of Diaspora. You can check the build on [Circle CI](https://circleci.com/gh/Chocobozzz/Diaspora-Docker) which is regularly triggered.
 
 ## Update your image
 
