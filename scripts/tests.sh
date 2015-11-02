@@ -55,8 +55,9 @@ make_build_test () {
     echo $2 | $build_command > "$outputs_dir/build/$(echo $1 | sed 's/\s/_/g')"
   fi
 
+  status_code=${PIPESTATUS[1]}
 
-  if [ ${PIPESTATUS[1]} -ne 0 ] ; then
+  if [ $status_code -ne 0 ] ; then
     printf "${ERR}FAILED${END}\n"
   else
     printf "${OK}OK${END}\n"
@@ -65,7 +66,7 @@ make_build_test () {
   
   echo -e "\n"
 
-  return $?
+  return $status_code
 }
 
 # Abort the script if there is one error status as argument
