@@ -1,5 +1,5 @@
-FROM chocobozzz/diaspora-docker:without_http_sql
-MAINTAINER Florian Bigard <florian.bigard@gmail.com>
+FROM pyro225/diaspora-docker-32bit:without_http_sql
+MAINTAINER Pyro225 <pyro225@gmail.com>
 
 ENV DEBIAN_FRONTEND noninteractive
 

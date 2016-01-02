@@ -1,5 +1,5 @@
-FROM debian:jessie
-MAINTAINER Florian Bigard <florian.bigard@gmail.com>
+FROM pyro225/ubuntu-32bit:latest
+MAINTAINER pyro225@gmail.com
 
 ENV DEBIAN_FRONTEND noninteractive
 
