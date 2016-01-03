@@ -1,1 +1,1 @@
-FROM chocobozzz/diaspora-docker:with_apache_mysql
+FROM pyro225/diaspora-docker-32bit:apache_mysql
