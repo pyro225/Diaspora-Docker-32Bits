@@ -186,8 +186,8 @@ if [ $build = true ]; then
   ret3=$?
   make_build_test "with NGinx and PostgreSQL"          5  $verbose
   ret4=$?
-  make_build_test "with NGinx and MySQL (Development)" 6  $verbose
-  ret5=$?
+  # make_build_test "with NGinx and MySQL (Development)" 6  $verbose
+  # ret5=$?
 
   check_build_error $ret1 $ret2 $ret3 $ret4 $ret5
 
@@ -211,6 +211,6 @@ if [ $run = true ]; then
   make_run_test "Apache and PostgreSQL" "chocobozzz/diaspora-docker:apache_postgre"  $verbose
   make_run_test "NGinx and MySQL"       "chocobozzz/diaspora-docker:nginx_mysql"     $verbose
   make_run_test "NGinx and PostgreSQL"  "chocobozzz/diaspora-docker:nginx_postgre"   $verbose
-  make_run_test "Dev NGinx and MySQL"   "chocobozzz/diaspora-docker:dev_nginx_mysql" $verbose
+  # make_run_test "Dev NGinx and MySQL"   "chocobozzz/diaspora-docker:dev_nginx_mysql" $verbose
 fi
 
