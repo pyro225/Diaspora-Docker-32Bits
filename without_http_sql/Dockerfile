@@ -11,8 +11,8 @@ RUN apt-get clean
 
 RUN useradd -m -d /home/diaspora -s /bin/bash -p diaspora diaspora
 RUN mkdir /tmp/ruby && cd /tmp/ruby \
-  && curl -L --progress http://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.7.tar.gz | tar xz \
-  && cd ruby-2.1.7 \
+  && curl -L --progress http://cache.ruby-lang.org/pub/ruby/2.2/ruby-2.2.4.tar.gz | tar xz \
+  && cd ruby-2.2.4 \
   && ./configure --disable-install-rdoc \
   && make -j2 \
   && make install
