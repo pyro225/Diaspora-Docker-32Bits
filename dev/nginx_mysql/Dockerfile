@@ -20,15 +20,6 @@ RUN echo mysql-server mysql-server/root_password password $MYSQLTMPROOT | debcon
 
 RUN apt-get clean
 
-# Update Ruby to 2.2
-RUN cd /tmp/ruby \
-  && curl -L --progress http://cache.ruby-lang.org/pub/ruby/2.2/ruby-2.2.4.tar.gz | tar xz \
-  && cd ruby-2.2.4 \
-  && ./configure --disable-install-rdoc \
-  && make -j2 \
-  && make install
-RUN gem install bundler
-
 RUN echo "cd /home/diaspora/diaspora/ && git checkout develop" | sudo -u diaspora -i
 
 ADD install.sh /home/diaspora/install.sh
@@ -46,4 +37,4 @@ RUN rm /etc/nginx/sites-enabled/default
 
 EXPOSE 80
 EXPOSE 443
-CMD ["/bin/bash", "/home/diaspora/start.sh"] 
+CMD ["/bin/bash", "/home/diaspora/start.sh"]
