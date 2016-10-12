@@ -14,15 +14,15 @@ lines=$(( $(echo 0 | $build | wc -l) + 1 ))
 print_help () {
   echo -e "./tests.sh [-c --clean] [-b --build] [-r --run] [-v --verbose]"
   echo -e "\tc, --clean: Clean all containers and clean images of chocobozzz/diaspora-docker"
-  echo -e "\tb, --build: Make build tests" 
-  echo -e "\tr, --run: Make run tests (images have to be already built)" 
+  echo -e "\tb, --build: Make build tests"
+  echo -e "\tr, --run: Make run tests (images have to be already built)"
   echo -e "\tv, --verbose: Print builds status/content page on stdout instead of file log"
 }
 
 # Clean all containers and clean images of chocobozzz/diaspora-docker
 clean () {
   echo "########### Cleaning ###########"
-  
+
   runnings=$(sudo docker ps -a | awk ' $1 != "CONTAINER" { print $1 } ')
   images=$(sudo docker images | egrep "(chocobozzz\/diaspora-docker)|(none)" | awk '{ print $3 }')
 
@@ -46,7 +46,7 @@ clean () {
 # Return the status code of the docker build
 make_build_test () {
   echo "########### Building $1 ###########"
-  
+
   sleep 2
 
   if [ $3 = true ]; then # Print in stdout
@@ -63,7 +63,7 @@ make_build_test () {
     printf "${OK}OK${END}\n"
     echo -e $text
   fi
-  
+
   echo -e "\n"
 
   return $status_code
@@ -84,26 +84,26 @@ check_build_error () {
 # Write logs in output_dir/run
 make_run_test() {
   echo "########### Testing image $1 ###########"
-  
+
   echo -e "\nAcquiring sudo..."
   sudo echo -e "Sudo acquired, thanks !\n"
   sudo docker run --name test -a STDOUT -a STDERR -p 48880:80 -p 48443:443 $2 &> "$outputs_dir/run/running_servers/$(echo $1 | sed 's/\s/_/g')" &
   sudo echo -e "Docker image running\n"
-  
+
   status_code=1
   for i in $(seq 0 30); do
     echo -n "."
     lines=$(curl -k https://localhost:48443 2>/dev/null | grep 'diaspora*' | wc -l)
     if [ $lines -gt 1 ]; then
       status_code=0
-      curl -k https://localhost:48443 2>/dev/null > "$outputs_dir/run/success_pages/$(echo $1 | sed 's/\s/_/g')" 
+      curl -k https://localhost:48443 2>/dev/null > "$outputs_dir/run/success_pages/$(echo $1 | sed 's/\s/_/g')"
       printf "${OK}OK${END}\n"
       break
     fi
     sleep 5
   done
 
-  if [ $status_code -eq 1 ]; then 
+  if [ $status_code -eq 1 ]; then
     printf "${ERR}FAILED${END}\n"
   fi
 
@@ -186,8 +186,8 @@ if [ $build = true ]; then
   ret3=$?
   make_build_test "with NGinx and PostgreSQL"          5  $verbose
   ret4=$?
-  make_build_test "with NGinx and MySQL (Development)" 6  $verbose
-  ret5=$?
+  # make_build_test "with NGinx and MySQL (Development)" 6  $verbose
+  # ret5=$?
 
   check_build_error $ret1 $ret2 $ret3 $ret4 $ret5
 
